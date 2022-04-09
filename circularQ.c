@@ -117,14 +117,15 @@ void enQueue(QueueType *cQ, element item){
 void deQueue(QueueType *cQ, element *item){
     if(isEmpty(cQ)){
         printf("Queue is Empty!!!\n");
+        return;
     }
 
     else{
         cQ->front = (cQ->front+1)%MAX_QUEUE_SIZE;
-        *item = cQ->queue[cQ->front];    
+        *item = cQ->queue[cQ->front];
+        return;    
     }
 
-    return;
 }
 
 void printQ(QueueType *cQ){
