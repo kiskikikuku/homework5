@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<ctype.h>
 
 #define MAX_STACK_SIZE 10
 #define MAX_EXPRESSION_SIZE 20
@@ -18,11 +19,9 @@ char infixExp[MAX_EXPRESSION_SIZE]; // infix 표현이 저장되는 배열
 char postfixExp[MAX_EXPRESSION_SIZE]; // postfix로 변경하여 저장할 배열
 char postfixStack[MAX_STACK_SIZE]; // postfix로 변환을 위한 스택
 int evalStack[MAX_STACK_SIZE]; // 계산용 스택
-
 int postfixStackTop = -1; // postfix 스택의 top
 int evalStackTop = -1; // 계산용 스택의 top
 int evalresult = 0; //계산 결과 저장
-
 void postfixPush(char x);
 char postfixPop();
 void evalPush(int x);
@@ -134,10 +133,10 @@ precedence getPriority(char x){
 
 void charCat(char* c){
     if(postfixExp == '\0')
-        strcpy(postfixExp, c);
+        strncpy(postfixExp, c, 1);
     else
-        strcat(postfixExp, c);
-}
+        strncat(postfixExp, c, 1);
+} // postfixExp 문자열에 문자 추가하는 함수
 
 void toPostfix(){
     
@@ -153,7 +152,6 @@ void toPostfix(){
         }
         else if (getPriority(*exp) == lparen) // 왼쪽괄호의 경우
         {
-            
             postfixPush(*exp); // 스택에 삽입한다.
         }
         else if (getPriority(*exp) == rparen){ // 오른쪽 괄호의 경우
@@ -167,7 +165,7 @@ void toPostfix(){
                 x = postfixPop(); //스택에서 1개 팝하여
                 charCat(&x); // 후위표기 Exp에 삽입
             }
-            postfixPush(*exp); // 읽은 연산자를 후위표기 Exp에 삽입
+            postfixPush(*exp); // 읽은 연산자를 후위표기 stack에 삽입
         }
         
         exp++; // 다음 문자 읽기
@@ -175,9 +173,8 @@ void toPostfix(){
 
     while (postfixStackTop != -1) //스택에 남은 연산자들을 Exp에 삽입
     {
-        x = postfixPop;
+        x = postfixPop();
         charCat(&x);
-
     }
     
 
@@ -196,7 +193,7 @@ void debug(){
         printf("%c ", postfixStack[i]);
     }
     printf("\n");
-}
+} //변수들 현황 출력
 
 void reset(){
 
@@ -211,7 +208,7 @@ void reset(){
     postfixStackTop = -1;
     evalStackTop = -1;
     evalresult = 0;
-}
+} // 스택 초기화
 
 void evaluation(){
     int op1, op2;
@@ -249,6 +246,6 @@ void evaluation(){
         }
     }
 
-    evalresult = evalPop();
+    evalresult = evalPop(); // 스택에 저장된 계산결과를 pop하여 저장한다
     return;
-} // 구현 대상 -> 계산
+} //후위표기 사칙연산
