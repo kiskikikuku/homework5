@@ -36,12 +36,12 @@ void reset();
 void evaluation();
 
 int main(){
-
+    printf("[----- [Park Taehyun] [2018068040] -----]\n");
     char command; //명령입력 문자
 
     do
     {
-        printf("----------------------------------------------------------------\n");
+      printf("----------------------------------------------------------------\n");
       printf("               Infix to Postfix, then Evaluation               \n");
       printf("----------------------------------------------------------------\n");
       printf(" Infix=i,   Postfix=p,  Eval=e,   Debug=d,   Reset=r,   Quit=q \n");
